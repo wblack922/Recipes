@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <title>Add Recipe</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>Add Recipe</h1>
+      </div>
+    </div>
+    <div class="container row">
+        <div class="col-xs-12">
+            
+        </div>
+    </div>
+    <div class="container row">
+      <div class="col-xs-12">
+        <div class="form">
+          <form action="" class="form">
+            <div class="control-group">
+              <label for="name">Name</label>
+              <input type="text" name="name">
+            </div>
+
+            <label>Protein</label>
+          <select id="protein" required>
+            <option value="beef">Beef</option>
+            <option value="chicken">Chicken</option>
+            <option value="pork">Pork</option>
+            <option value="other">Other</option>
+            <option value="none">None</option>
+          </select>
+                      
+          <div class= "control-group">
+            <label class="" for="description">Description</label>
+        <textarea name="description" id="description" required></textarea>
+          </div>
+
+          <label>Rating</label>
+          <select id="rating" required>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="F">F</option>
+          </select>
+
+          <div class="control-group">
+            <label for="link">Link</label>
+            <input type="text" name="link">
+          </div>
+
+            <div>
+              <button class="submit btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/3.0.2/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+    <script>
+    $.fn.getFormData = function() {
+      var fields = this.find('[name]');
+      var result = {};
+      $.each(fields, function (i, el) {
+        result[el.name] = el.value;
+      });
+      return result;
+    };
+      var config = {
+          apiKey: "AIzaSyB2A7_0JF1oNFKsCcKSImPyWTOf90k8OJY",
+          authDomain: "recipe-ed001.firebaseapp.com",
+          databaseURL: "https://recipe-ed001-default-rtdb.firebaseio.com",
+          storageBucket: "recipe-ed001.appspot.com",
+      };
+      var fb = firebase.initializeApp(config);
+      var user_id;
+      $('.submit').on('click', function (e) {
+        e.preventDefault();
+        var updates = {};
+        user_id = user_id ? user_id : fb.database().ref().child('user-data').push().key;
+        updates[user_id] = $('form').getFormData();
+        fb.database().ref().child('user-data').update(updates);
+      });
+    </script>
+  </body>
+</html>
+
